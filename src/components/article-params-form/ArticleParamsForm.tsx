@@ -19,53 +19,53 @@ import { Button } from 'components/button';
 import styles from './ArticleParamsForm.module.scss';
 
 type ArticleParamsFormStates = {
-	state: ArticleStateType;
-	setState: React.Dispatch<React.SetStateAction<ArticleStateType>>;
+	mainData: ArticleStateType;
+	setMainData: React.Dispatch<React.SetStateAction<ArticleStateType>>;
 };
 
 export const ArticleParamsForm = ({
-	state,
-	setState,
+	mainData,
+	setMainData,
 }: ArticleParamsFormStates) => {
 	const containerRef = useRef<HTMLDivElement | null>(null);
 	const [status, setStatus] = useState(false);
 	const [selectedFontFamily, setSelectedFontFamily] = useState<OptionType>(
-		state.fontFamilyOption
+		mainData.fontFamilyOption
 	);
 	const [selectedFontSize, setSelectedFontSize] = useState<OptionType>(
-		state.fontSizeOption
+		mainData.fontSizeOption
 	);
 	const [selectedFontColor, setSelectedFontColor] = useState<OptionType>(
-		state.fontColor
+		mainData.fontColor
 	);
 	const [selectedBackgroundColor, setSelectedBackgroundColor] =
-		useState<OptionType>(state.backgroundColor);
+		useState<OptionType>(mainData.backgroundColor);
 	const [selectedContentWidth, setSelectedContentWidth] = useState<OptionType>(
-		state.contentWidth
+		mainData.contentWidth
 	);
 
 	useEffect(() => {
+		const outSideClick = (event: MouseEvent) => {
+			if (
+				containerRef.current &&
+				!containerRef.current.contains(event.target as Node)
+			) {
+				setStatus(false);
+			}
+		};
+
 		document.addEventListener('mousedown', outSideClick);
 		return () => {
 			document.removeEventListener('mousedown', outSideClick);
 		};
 	}, [status]);
 
-	const outSideClick = (event: MouseEvent) => {
-		if (
-			containerRef.current &&
-			!containerRef.current.contains(event.target as Node)
-		) {
-			setStatus(false);
-		}
-	};
-
 	const toggleStatus = () => {
 		!status ? setStatus(true) : setStatus(false);
 	};
 
 	const applyChanges = () => {
-		setState({
+		setMainData({
 			fontFamilyOption: selectedFontFamily,
 			fontSizeOption: selectedFontSize,
 			fontColor: selectedFontColor,
@@ -75,7 +75,7 @@ export const ArticleParamsForm = ({
 	};
 
 	const resetForm = () => {
-		setState(defaultArticleState);
+		setMainData(defaultArticleState);
 	};
 
 	return (

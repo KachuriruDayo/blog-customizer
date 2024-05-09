@@ -12,21 +12,22 @@ import '../../styles/index.scss';
 import styles from '../../styles/index.module.scss';
 
 export const App = () => {
-	const [state, setState] = useState<ArticleStateType>(defaultArticleState);
+	const [mainData, setMainData] =
+		useState<ArticleStateType>(defaultArticleState);
 
 	return (
 		<div
 			className={clsx(styles.main)}
 			style={
 				{
-					'--font-family': state.fontFamilyOption.value,
-					'--font-size': state.fontSizeOption.value,
-					'--font-color': state.fontColor.value,
-					'--container-width': state.contentWidth.value,
-					'--bg-color': state.backgroundColor.value,
+					'--font-family': mainData.fontFamilyOption.value,
+					'--font-size': mainData.fontSizeOption.value,
+					'--font-color': mainData.fontColor.value,
+					'--container-width': mainData.contentWidth.value,
+					'--bg-color': mainData.backgroundColor.value,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm state={state} setState={setState} />
+			<ArticleParamsForm mainData={mainData} setMainData={setMainData} />
 			<Article />
 		</div>
 	);
